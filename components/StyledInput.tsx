@@ -44,6 +44,7 @@ function StyledInput({
         contentStyle={{ paddingLeft: 0 }}
         textColor="white"
         secureTextEntry={secureText}
+        autoCapitalize="none"
         style={{
           borderBottomWidth: isFocused ? 3 : 1,
           ...styles.input,

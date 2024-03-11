@@ -6,20 +6,23 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./screens/LoginScreen";
 import { LinearGradient } from "expo-linear-gradient";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./redux/store";
+import StackNavigator from "./components/navigation/StackNavigator";
+import { theme } from "./theme/theme";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      {/* <LinearGradient colors={["#243765", "#090D38"]} style={styles.gradient}> */}
-      <PaperProvider>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login" component={LoginScreen} />
-        </Stack.Navigator>
-      </PaperProvider>
-      {/* </LinearGradient> */}
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <PaperProvider theme={theme}>
+          <StackNavigator />
+        </PaperProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 
