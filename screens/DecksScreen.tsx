@@ -4,6 +4,8 @@ import { Card, Text } from "react-native-paper";
 import { SafeAreaView, View, StyleSheet } from "react-native";
 import { useAppTheme } from "../theme/theme";
 import ScreenLabel from "../components/ScreenLabel";
+import DeckCard from "../components/DeckCard";
+import dayjs from "dayjs";
 
 type Props = {};
 
@@ -34,81 +36,10 @@ const DecksScreen = (props: Props) => {
               marginBottom: 18,
             }}
           >
-            <Card
-              style={{
-                backgroundColor: theme.colors.secondary,
-                height: 140,
-                flex: 1,
-              }}
-            >
-              <Card.Content>
-                <Text
-                  variant="titleSmall"
-                  style={{
-                    color: theme.colors.backgroundBlue,
-                    marginBottom: 18,
-                  }}
-                >
-                  10 Mar 2024
-                </Text>
-                <Text
-                  variant="titleMedium"
-                  style={{ color: theme.colors.backgroundBlue }}
-                >
-                  Science terms
-                </Text>
-              </Card.Content>
-            </Card>
-            <Card
-              style={{
-                backgroundColor: theme.colors.secondary,
-                height: 140,
-                flex: 1,
-              }}
-            >
-              <Card.Content>
-                <Text
-                  variant="titleSmall"
-                  style={{
-                    color: theme.colors.backgroundBlue,
-                    marginBottom: 18,
-                  }}
-                >
-                  9 Mar 2024
-                </Text>
-                <Text
-                  variant="titleMedium"
-                  style={{ color: theme.colors.backgroundBlue }}
-                >
-                  Math equations
-                </Text>
-              </Card.Content>
-            </Card>
+            <DeckCard date={dayjs()} label="Science concepts" halfWidth />
+            <DeckCard date={dayjs()} label="Math equations" halfWidth />
           </View>
-          <Card
-            style={{
-              backgroundColor: theme.colors.secondary,
-              height: 140,
-            }}
-          >
-            <Card.Content>
-              <Text
-                variant="titleSmall"
-                style={{
-                  color: theme.colors.backgroundBlue,
-                  marginBottom: 18,
-                }}
-              >
-                8 Mar 2024
-              </Text>
-              <Text
-                variant="titleMedium"
-                style={{ color: theme.colors.backgroundBlue }}
-              >
-                French I
-              </Text>
-            </Card.Content>
-          </Card>
+          <DeckCard date={dayjs()} label="French I" />
         </View>
       </SafeAreaView>
     </ScreenTemplate>
