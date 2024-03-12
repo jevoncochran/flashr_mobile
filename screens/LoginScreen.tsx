@@ -63,7 +63,7 @@ const LoginScreen = () => {
           onPress={handleLogin}
           style={styles.button}
         >
-          Login
+          <Text variant="titleMedium">Login</Text>
         </Button>
       </View>
     </ScreenTemplate>
@@ -81,6 +81,8 @@ const styles = StyleSheet.create({
     marginTop: 24,
     backgroundColor: "#00f29f",
     borderRadius: 4,
+    height: 50,
+    justifyContent: "center",
   },
   textRegular: {
     color: "white",
