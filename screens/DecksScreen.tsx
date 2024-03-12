@@ -1,7 +1,7 @@
 import React from "react";
 import ScreenTemplate from "../components/ScreenTemplate";
 import { Card, Text } from "react-native-paper";
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import { SafeAreaView, View, StyleSheet, ScrollView } from "react-native";
 import { useAppTheme } from "../theme/theme";
 import ScreenLabel from "../components/ScreenLabel";
 import DeckCard from "../components/DeckCard";
@@ -15,32 +15,48 @@ const DecksScreen = (props: Props) => {
   return (
     <ScreenTemplate>
       <SafeAreaView style={styles.container}>
-        <View style={styles.labelContainer}>
+        <ScrollView>
           <ScreenLabel label="Your decks" />
-        </View>
-        <View style={{ marginBottom: 16 }}>
-          <Text
-            variant="titleLarge"
-            style={{
-              color: theme.colors.tertiary,
-              ...styles.subLabelContainer,
-            }}
-          >
-            Recently Reviewed
-          </Text>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: 18,
-              marginBottom: 18,
-            }}
-          >
-            <DeckCard date={dayjs()} label="Science concepts" halfWidth />
-            <DeckCard date={dayjs()} label="Math equations" halfWidth />
+          <View style={{ marginBottom: 24 }}>
+            <Text
+              variant="titleLarge"
+              style={{
+                color: theme.colors.tertiary,
+                ...styles.subLabel,
+              }}
+            >
+              Recently reviewed
+            </Text>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 18,
+                marginBottom: 18,
+              }}
+            >
+              <DeckCard date={dayjs()} label="Science concepts" halfWidth />
+              <DeckCard date={dayjs()} label="Math equations" halfWidth />
+            </View>
+            <DeckCard date={dayjs()} label="French I" />
           </View>
-          <DeckCard date={dayjs()} label="French I" />
-        </View>
+          <View>
+            <Text
+              variant="titleLarge"
+              style={{ color: theme.colors.tertiary, ...styles.subLabel }}
+            >
+              All decks
+            </Text>
+            {/* <ScrollView> */}
+            <View style={styles.allDecksContainer}>
+              <DeckCard date={dayjs()} label="French II" />
+              <DeckCard date={dayjs()} label="History" />
+              <DeckCard date={dayjs()} label="French II" />
+              <DeckCard date={dayjs()} label="History" />
+            </View>
+            {/* </ScrollView> */}
+          </View>
+        </ScrollView>
       </SafeAreaView>
     </ScreenTemplate>
   );
@@ -54,7 +70,11 @@ const styles = StyleSheet.create({
   labelContainer: {
     marginBottom: 32,
   },
-  subLabelContainer: { marginBottom: 24 },
+  subLabel: { marginBottom: 24 },
+  allDecksContainer: {
+    display: "flex",
+    gap: 18,
+  },
 });
 
 export default DecksScreen;

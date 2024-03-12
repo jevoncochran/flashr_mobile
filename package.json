@@ -11,7 +11,9 @@
     "ts:check": "tsc"
   },
   "dependencies": {
+    "@expo/vector-icons": "^14.0.0",
     "@react-native-async-storage/async-storage": "^1.22.3",
+    "@react-navigation/bottom-tabs": "^6.5.18",
     "@react-navigation/native": "^6.1.15",
     "@react-navigation/native-stack": "^6.9.24",
     "@reduxjs/toolkit": "^2.2.1",

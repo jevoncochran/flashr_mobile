@@ -5,6 +5,7 @@ export const theme = {
     primary: "#FFF",
     secondary: "#00f29f",
     tertiary: "#c2c2c2",
+    tertiaryLight: "#606060",
     backgroundBlue: "#090D38",
   },
 };
