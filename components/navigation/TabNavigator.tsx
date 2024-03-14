@@ -48,7 +48,7 @@ const TabNavigator = (props: Props) => {
         return (
           <MaterialIcons
             name="add-circle-outline"
-            size={size}
+            size={32}
             color={active ? activeColor : color}
           />
         );
@@ -77,19 +77,21 @@ const TabNavigator = (props: Props) => {
       screenOptions={({ route }) => ({
         tabBarStyle: {
           backgroundColor: theme.colors.backgroundBlue,
-          height: 80,
+          height: 100,
+          justifyContent: "center",
         },
-        tabBarLabel: ({ focused }) => (
-          <Text
-            style={{
-              color: focused
-                ? theme.colors.primary
-                : theme.colors.tertiaryLight,
-            }}
-          >
-            {route.name}
-          </Text>
-        ),
+        tabBarLabel: ({ focused }) =>
+          route.name === "Create-Deck" ? null : (
+            <Text
+              style={{
+                color: focused
+                  ? theme.colors.primary
+                  : theme.colors.tertiaryLight,
+              }}
+            >
+              {route.name}
+            </Text>
+          ),
         tabBarIcon: ({ size, color, focused }) => {
           return getTabBarIcon(
             route,
