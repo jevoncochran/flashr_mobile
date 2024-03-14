@@ -6,6 +6,7 @@ import { useAppSelector } from "../../redux/hook";
 import { RootState } from "../../redux/store";
 import DecksScreen from "../../screens/DecksScreen";
 import TabNavigator from "./TabNavigator";
+import DeckScreen from "../../screens/DeckScreen";
 
 type Props = {};
 
@@ -26,11 +27,9 @@ const StackNavigator = (props: Props) => {
           <Stack.Screen name="Login" component={LoginScreen} />
         ) : (
           <>
-            <Stack.Screen
-              name="Tabs"
-              component={TabNavigator}
-            />
+            <Stack.Screen name="Tabs" component={TabNavigator} />
             <Stack.Screen name="Decks" component={DecksScreen} />
+            <Stack.Screen name="Deck" component={DeckScreen} />
           </>
         )}
       </Stack.Navigator>

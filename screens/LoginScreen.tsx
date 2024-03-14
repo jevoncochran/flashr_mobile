@@ -6,6 +6,7 @@ import StyledInput from "../components/StyledInput";
 import { api } from "../utils/api";
 import { useAppDispatch } from "../redux/hook";
 import { setAuth } from "../redux/features/auth/authSlice";
+import FilledButton from "../components/buttons/FilledButton";
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
@@ -57,14 +58,11 @@ const LoginScreen = () => {
           </Text>
         </View>
 
-        <Button
-          mode="contained"
+        <FilledButton
+          label="Login"
           disabled={loginDisabled}
           onPress={handleLogin}
-          style={styles.button}
-        >
-          <Text variant="titleMedium">Login</Text>
-        </Button>
+        />
       </View>
     </ScreenTemplate>
   );

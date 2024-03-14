@@ -1,16 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "@react-native-async-storage/async-storage";
-import {
-  persistReducer,
-  persistStore,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 import authReducer from "./features/auth/authSlice";
+import deckReducer from "./features/deck/deckSlice";
 
 const persistConfig = {
   key: "root",
@@ -20,6 +12,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  deck: deckReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

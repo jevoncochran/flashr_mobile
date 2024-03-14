@@ -1,14 +1,14 @@
-import { SafeAreaView, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import ScreenTemplate from "../components/ScreenTemplate";
 import ScreenLabel from "../components/ScreenLabel";
 import { Text } from "react-native-paper";
 import { useAppTheme } from "../theme/theme";
-import ProfilePic from "../components/profile/ProfilePic";
+import ProfilePic from "../components/ProfilePic";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import ProfileButton from "../components/profile/ProfileButton";
-import SettingsButton from "../components/profile/SettingsButton";
+import ProfileButton from "../components/ProfileButton";
 import { useAppDispatch } from "../redux/hook";
 import { logout } from "../redux/features/auth/authSlice";
+import OutlinedButton from "../components/buttons/OutlinedButton";
 
 const ProfileScreen = () => {
   const theme = useAppTheme();
@@ -17,11 +17,13 @@ const ProfileScreen = () => {
 
   return (
     <ScreenTemplate>
-      <SafeAreaView style={{ height: "100%" }}>
+      <>
         <ScreenLabel label="Your profile" />
         <View style={styles.container}>
           <View style={styles.profileTop}>
-            <ProfilePic />
+            <View style={styles.profilePicContainer}>
+              <ProfilePic />
+            </View>
             <Text
               variant="headlineSmall"
               style={{ color: theme.colors.primary, marginBottom: 24 }}
@@ -50,10 +52,9 @@ const ProfileScreen = () => {
               }
             />
           </View>
-
-          <SettingsButton label="Log out" onPress={() => dispatch(logout())} />
         </View>
-      </SafeAreaView>
+        <OutlinedButton label="Log out" onPress={() => dispatch(logout())} />
+      </>
     </ScreenTemplate>
   );
 };
@@ -65,6 +66,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   profileTop: { alignItems: "center" },
+  profilePicContainer: { marginBottom: 16 },
   topButton: {
     width: "100%",
     height: 60,
