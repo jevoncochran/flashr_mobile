@@ -7,6 +7,8 @@ import { RootState } from "../../redux/store";
 import DecksScreen from "../../screens/DecksScreen";
 import TabNavigator from "./TabNavigator";
 import DeckScreen from "../../screens/DeckScreen";
+import PracticeScreen from "../../screens/PracticeScreen";
+import BuildDeckScreen from "../../screens/BuildDeckScreen";
 
 type Props = {};
 
@@ -30,6 +32,8 @@ const StackNavigator = (props: Props) => {
             <Stack.Screen name="Tabs" component={TabNavigator} />
             <Stack.Screen name="Decks" component={DecksScreen} />
             <Stack.Screen name="Deck" component={DeckScreen} />
+            <Stack.Screen name="Practice" component={PracticeScreen} />
+            <Stack.Screen name="Build" component={BuildDeckScreen} />
           </>
         )}
       </Stack.Navigator>

@@ -4,7 +4,6 @@ import { Text } from "react-native-paper";
 import {
   View,
   StyleSheet,
-  ScrollView,
   Dimensions,
   FlatList,
   TouchableOpacity,
@@ -14,11 +13,11 @@ import ScreenLabel from "../components/ScreenLabel";
 import DeckCard from "../components/DeckCard";
 import dayjs from "dayjs";
 import { api } from "../utils/api";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { RootState } from "../redux/store";
+import { useAppDispatch } from "../redux/hook";
 import { Deck } from "../types";
 import { setSelectedDeck } from "../redux/features/deck/deckSlice";
 import { useNavigation } from "@react-navigation/native";
+import { useAcessToken } from "../utils/useAcessToken";
 
 type Props = {};
 
@@ -29,9 +28,7 @@ const DecksScreen = (props: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const accessToken = useAppSelector(
-    (state: RootState) => state.auth.accessToken
-  );
+  const accessToken = useAcessToken();
 
   const [recentlyViewedDecks, setRecentlyViewedDecks] = useState([]);
   const [userDecks, setUserDecks] = useState([]);
@@ -48,9 +45,7 @@ const DecksScreen = (props: Props) => {
 
   useEffect(() => {
     api
-      .get("/decks/user-specific", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
+      .get("/decks/user-specific", accessToken)
       .then((res) => {
         console.log(res.data);
         setUserDecks(res.data);
@@ -62,87 +57,77 @@ const DecksScreen = (props: Props) => {
 
   return (
     <ScreenTemplate>
-      {/* <SafeAreaView style={styles.container}> */}
-      <ScrollView>
+      <>
         <ScreenLabel label="Your decks" />
-        <>
-          {recentlyViewedDecks.length > 0 || userDecks.length > 0 ? (
-            <>
-              <View style={{ marginBottom: 24 }}>
-                <Text
-                  variant="titleLarge"
+        {recentlyViewedDecks.length > 0 || userDecks.length > 0 ? (
+          <>
+            <View style={{ marginBottom: 24 }}>
+              <Text
+                variant="titleLarge"
+                style={{
+                  color: theme.colors.tertiary,
+                  ...styles.subLabel,
+                }}
+              >
+                Recently reviewed
+              </Text>
+              <View style={{ minHeight: fiftyPercentHeight }}>
+                <View
                   style={{
-                    color: theme.colors.tertiary,
-                    ...styles.subLabel,
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 16,
+                    marginBottom: 18,
                   }}
                 >
-                  Recently reviewed
-                </Text>
-                <View style={{ minHeight: fiftyPercentHeight }}>
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      gap: 18,
-                      marginBottom: 18,
-                    }}
-                  >
-                    <DeckCard
-                      date={dayjs()}
-                      label="Science concepts"
-                      halfWidth
-                    />
-                    <DeckCard date={dayjs()} label="Math equations" halfWidth />
-                  </View>
-                  <DeckCard date={dayjs()} label="French I" />
+                  <DeckCard date={dayjs()} label="Science concepts" halfWidth />
+                  <DeckCard date={dayjs()} label="Math equations" halfWidth />
                 </View>
+                <DeckCard date={dayjs()} label="French I" />
               </View>
+            </View>
 
-              <View>
-                <Text
-                  variant="titleLarge"
-                  style={{ color: theme.colors.tertiary, ...styles.subLabel }}
-                >
-                  All decks
-                </Text>
-                <View>
-                  {userDecks.length > 0 ? (
-                    <FlatList<Deck>
-                      data={userDecks}
-                      renderItem={({ item: deck }) => (
-                        <TouchableOpacity
-                          key={deck.id}
-                          onPress={() => handlePress(deck)}
-                        >
-                          <DeckCard
-                            date={dayjs(deck.createdAt)}
-                            label={deck.title}
-                          />
-                        </TouchableOpacity>
-                      )}
-                      ItemSeparatorComponent={() => (
-                        <View style={{ height: 18 }} />
-                      )}
-                    />
-                  ) : (
-                    <Text
-                      variant="bodyLarge"
-                      style={{ color: theme.colors.primary }}
-                    >
-                      You haven't created or saved any decks
-                    </Text>
-                  )}
-                </View>
+            <View style={{ flex: 1 }}>
+              <Text
+                variant="titleLarge"
+                style={{ color: theme.colors.tertiary, ...styles.subLabel }}
+              >
+                All decks
+              </Text>
+              <View style={{ flex: 1 }}>
+                {userDecks.length > 0 ? (
+                  <FlatList<Deck>
+                    data={userDecks}
+                    renderItem={({ item: deck }) => (
+                      <TouchableOpacity
+                        key={deck.id}
+                        onPress={() => handlePress(deck)}
+                      >
+                        <DeckCard
+                          date={dayjs(deck.createdAt)}
+                          label={deck.title}
+                        />
+                      </TouchableOpacity>
+                    )}
+                    contentContainerStyle={{ gap: 16 }}
+                  />
+                ) : (
+                  <Text
+                    variant="bodyLarge"
+                    style={{ color: theme.colors.primary }}
+                  >
+                    You haven't created or saved any decks
+                  </Text>
+                )}
               </View>
-            </>
-          ) : (
-            <Text variant="bodyLarge" style={{ color: theme.colors.primary }}>
-              There are no decks to show
-            </Text>
-          )}
-        </>
-      </ScrollView>
-      {/* </SafeAreaView> */}
+            </View>
+          </>
+        ) : (
+          <Text variant="bodyLarge" style={{ color: theme.colors.primary }}>
+            There are no decks to show
+          </Text>
+        )}
+      </>
     </ScreenTemplate>
   );
 };

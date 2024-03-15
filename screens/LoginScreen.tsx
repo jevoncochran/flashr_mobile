@@ -34,7 +34,7 @@ const LoginScreen = () => {
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <StyledInput
-            type="email-address"
+            keyboardType="email-address"
             label="Email"
             placeholder="Enter your email"
             value={credentials.email}

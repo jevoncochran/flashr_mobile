@@ -1,24 +1,33 @@
 import { useState } from "react";
-import { View, StyleSheet, KeyboardTypeOptions } from "react-native";
+import { View, KeyboardTypeOptions } from "react-native";
 import { TextInput, HelperText } from "react-native-paper";
+import { useAppTheme } from "../theme/theme";
 
 interface Props {
-  type?: KeyboardTypeOptions;
+  keyboardType?: KeyboardTypeOptions;
   label: string;
   placeholder: string;
   secureText?: boolean;
   value: string;
   onChangeText: (text: string) => void;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
+  isCardInput?: boolean;
+  marginBottom?: number;
 }
 
 function StyledInput({
-  type,
+  keyboardType,
   label,
   placeholder,
   secureText,
   value,
   onChangeText,
+  autoCapitalize = "none",
+  isCardInput,
+  marginBottom = 24,
 }: Props) {
+  const theme = useAppTheme();
+
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => {
@@ -29,12 +38,14 @@ function StyledInput({
     setIsFocused(false);
   };
   return (
-    <View style={styles.container}>
+    <View style={{ marginBottom }}>
       <TextInput
         value={value}
-        keyboardType={type}
+        keyboardType={keyboardType}
         placeholder={placeholder}
-        placeholderTextColor="#c2c2c2"
+        placeholderTextColor={
+          isCardInput ? theme.colors.backgroundBlue : "#c2c2c2"
+        }
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChangeText={onChangeText}
@@ -42,31 +53,25 @@ function StyledInput({
         underlineColorAndroid="transparent"
         activeUnderlineColor="transparent"
         contentStyle={{ paddingLeft: 0 }}
-        textColor="white"
+        textColor={isCardInput ? theme.colors.backgroundBlue : "white"}
         secureTextEntry={secureText}
-        autoCapitalize="none"
+        autoCapitalize={autoCapitalize}
         style={{
+          backgroundColor: "transparent",
+          color: isCardInput ? theme.colors.backgroundBlue : "white",
+          borderColor: isCardInput ? theme.colors.backgroundBlue : "white",
           borderBottomWidth: isFocused ? 3 : 1,
-          ...styles.input,
         }}
       />
-      <HelperText type="info" padding="none" style={styles.label}>
+      <HelperText
+        type="info"
+        padding="none"
+        style={{ color: isCardInput ? theme.colors.backgroundBlue : "#c2c2c2" }}
+      >
         {label}
       </HelperText>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { marginBottom: 24 },
-  input: {
-    backgroundColor: "transparent",
-    color: "white",
-    borderColor: "white",
-  },
-  label: {
-    color: "#c2c2c2",
-  },
-});
 
 export default StyledInput;

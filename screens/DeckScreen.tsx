@@ -3,8 +3,7 @@ import ScreenLabel from "../components/ScreenLabel";
 import { useAppSelector } from "../redux/hook";
 import { RootState } from "../redux/store";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity, View, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View, StyleSheet } from "react-native";
 import { useAppTheme } from "../theme/theme";
 import ProfilePic from "../components/ProfilePic";
 import { useEffect, useState } from "react";
@@ -13,32 +12,29 @@ import { Text } from "react-native-paper";
 import { Profile } from "../types";
 import FilledButton from "../components/buttons/FilledButton";
 import OutlinedButton from "../components/buttons/OutlinedButton";
+import BackButton from "../components/buttons/BackButton";
+import { useAcessToken } from "../utils/useAcessToken";
 
 const DeckScreen = () => {
+  // Hooks
   const navigation = useNavigation();
-
   const theme = useAppTheme();
+  const acccessToken = useAcessToken();
 
+  // Redux state
   const selectedDeck = useAppSelector(
     (state: RootState) => state.deck.selectedDeck
   );
-  const accessToken = useAppSelector(
-    (state: RootState) => state.auth.accessToken
-  );
 
+  // Component state
   const [deckCreatorProfile, setDeckCreatorProfile] = useState<Profile | null>(
     null
   );
 
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
-
+  // Side effects
   useEffect(() => {
     api
-      .get(`/profiles/${selectedDeck?.creatorId}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
+      .get(`/profiles/${selectedDeck?.creatorId}`, acccessToken)
       .then((res) => {
         console.log(res.data);
         setDeckCreatorProfile(res.data);
@@ -50,62 +46,73 @@ const DeckScreen = () => {
 
   return (
     <ScreenTemplate>
-      <View>
-        <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={32} color={theme.colors.primary} />
-        </TouchableOpacity>
-        <ScreenLabel
-          label={selectedDeck?.title as string}
-          variant="headlineMedium"
-          marginBottom={16}
-        />
-        <View style={styles.deckDetailsContainer}>
-          <View
-            style={[
-              styles.creatorProfile,
-              {
-                borderRightWidth: 0.5,
-                borderColor: theme.colors.tertiaryLight,
-              },
-            ]}
-          >
-            <ProfilePic size={50} />
+      <>
+        <View>
+          <BackButton />
+          <ScreenLabel
+            label={selectedDeck?.title as string}
+            variant="headlineMedium"
+            marginBottom={16}
+          />
+          <View style={styles.deckDetailsContainer}>
+            <View
+              style={[
+                styles.creatorProfile,
+                {
+                  borderRightWidth: 0.5,
+                  borderColor: theme.colors.tertiaryLight,
+                },
+              ]}
+            >
+              <ProfilePic size={50} />
+              <Text
+                variant="titleMedium"
+                style={[styles.username, { color: theme.colors.primary }]}
+              >
+                {deckCreatorProfile?.username}
+              </Text>
+            </View>
             <Text
               variant="titleMedium"
-              style={[styles.username, { color: theme.colors.primary }]}
+              style={[{ color: theme.colors.primary }, styles.cardCount]}
             >
-              {deckCreatorProfile?.username}
+              2 cards
             </Text>
           </View>
-          <Text
-            variant="titleMedium"
-            style={[{ color: theme.colors.primary }, styles.cardCount]}
-          >
-            2 cards
-          </Text>
-        </View>
 
-        <View style={styles.memorizationContainer}>
-          <Text variant="titleMedium" style={{ color: theme.colors.primary }}>
-            You've memorized
-          </Text>
-          <Text variant="titleMedium" style={{ color: theme.colors.secondary }}>
-            48%
-          </Text>
+          <View style={styles.memorizationContainer}>
+            <Text variant="titleMedium" style={{ color: theme.colors.primary }}>
+              You've memorized
+            </Text>
+            <Text
+              variant="titleMedium"
+              style={{ color: theme.colors.secondary }}
+            >
+              48%
+            </Text>
+          </View>
+          <View style={styles.memorizationContainer}>
+            <Text variant="titleMedium" style={{ color: theme.colors.primary }}>
+              You've practiced this deck
+            </Text>
+            <Text
+              variant="titleMedium"
+              style={{ color: theme.colors.secondary }}
+            >
+              3 times
+            </Text>
+          </View>
         </View>
-        <View style={styles.memorizationContainer}>
-          <Text variant="titleMedium" style={{ color: theme.colors.primary }}>
-            You've practiced this deck
-          </Text>
-          <Text variant="titleMedium" style={{ color: theme.colors.secondary }}>
-            3 times
-          </Text>
+        <View style={styles.buttonContainer}>
+          <FilledButton
+            label="Practice"
+            onPress={() => {
+              navigation.navigate("Practice");
+            }}
+          />
+          <OutlinedButton label="Edit" onPress={() => {}} />
         </View>
-      </View>
-      <View style={styles.buttonContainer}>
-        <FilledButton label="Practice" onPress={() => {}} />
-        <OutlinedButton label="Edit" onPress={() => {}} />
-      </View>
+      </>
     </ScreenTemplate>
   );
 };

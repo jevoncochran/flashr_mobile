@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { Button, Text } from "react-native-paper";
-import { useAppTheme } from "../theme/theme";
+import { useAppTheme } from "../../theme/theme";
 import { Entypo } from "@expo/vector-icons";
 
 interface Props {

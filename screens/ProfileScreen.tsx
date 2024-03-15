@@ -5,7 +5,7 @@ import { Text } from "react-native-paper";
 import { useAppTheme } from "../theme/theme";
 import ProfilePic from "../components/ProfilePic";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import ProfileButton from "../components/ProfileButton";
+import ProfileButton from "../components/profile/ProfileButton";
 import { useAppDispatch } from "../redux/hook";
 import { logout } from "../redux/features/auth/authSlice";
 import OutlinedButton from "../components/buttons/OutlinedButton";

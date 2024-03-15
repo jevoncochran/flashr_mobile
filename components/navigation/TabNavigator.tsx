@@ -11,14 +11,24 @@ import {
 } from "@expo/vector-icons";
 import { Text } from "react-native-paper";
 import ProfileScreen from "../../screens/ProfileScreen";
-import { ParamListBase, RouteProp } from "@react-navigation/native";
+import {
+  ParamListBase,
+  RouteProp,
+  useNavigation,
+} from "@react-navigation/native";
+import { useAppDispatch } from "../../redux/hook";
+import { setDeckBuildType } from "../../redux/features/deck/deckSlice";
+import BuildDeckScreen from "../../screens/BuildDeckScreen";
 
 type Props = {};
 
 const TabNavigator = (props: Props) => {
   const Tab = createBottomTabNavigator();
 
+  const navigation = useNavigation();
   const theme = useAppTheme();
+
+  const dispatch = useAppDispatch();
 
   const getTabBarIcon = (
     route: RouteProp<ParamListBase, string>,
@@ -44,12 +54,15 @@ const TabNavigator = (props: Props) => {
             color={active ? activeColor : color}
           />
         );
-      case "Create-Deck":
+      case "Create":
         return (
           <MaterialIcons
             name="add-circle-outline"
             size={32}
             color={active ? activeColor : color}
+            onPress={() => {
+              dispatch(setDeckBuildType("create"));
+            }}
           />
         );
       case "Library":
@@ -79,9 +92,10 @@ const TabNavigator = (props: Props) => {
           backgroundColor: theme.colors.backgroundBlue,
           height: 100,
           justifyContent: "center",
+          display: route.name !== "Create" ? "flex" : "none",
         },
         tabBarLabel: ({ focused }) =>
-          route.name === "Create-Deck" ? null : (
+          route.name === "Create" ? null : (
             <Text
               style={{
                 color: focused
@@ -106,7 +120,7 @@ const TabNavigator = (props: Props) => {
     >
       <Tab.Screen name="Home" component={DecksScreen} />
       <Tab.Screen name="Solutions" component={DecksScreen} />
-      <Tab.Screen name="Create-Deck" component={DecksScreen} />
+      <Tab.Screen name="Create" component={BuildDeckScreen} />
       <Tab.Screen name="Library" component={DecksScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
