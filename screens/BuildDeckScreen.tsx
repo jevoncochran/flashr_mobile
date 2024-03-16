@@ -10,14 +10,14 @@ import BackButton from "../components/buttons/BackButton";
 import ConfirmButton from "../components/buttons/ConfirmButton";
 import ScreenLabel from "../components/ScreenLabel";
 import StyledInput from "../components/StyledInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import InputCard from "../components/InputCard";
 import { api } from "../utils/api";
 import { useAccessToken } from "../utils/useAccessToken";
 import { useNavigation } from "@react-navigation/native";
 import { useAppSelector } from "../redux/hook";
 import { RootState } from "../redux/store";
-import { Card, Deck } from "../types";
+import { Card } from "../types";
 
 const BuildDeckScreen = () => {
   const accessToken = useAccessToken();
@@ -90,9 +90,6 @@ const BuildDeckScreen = () => {
     });
   };
 
-  useEffect(() => {
-    console.log("deck: ", deck);
-  }, [deck]);
 
   return (
     <ScreenTemplate>
@@ -111,7 +108,7 @@ const BuildDeckScreen = () => {
         </View>
 
         <ScreenLabel
-          label="Create deck"
+          label={deckBuildType === "create" ? "Create deck" : "Update deck"}
           variant="headlineMedium"
           textAlign="center"
         />
