@@ -1,48 +1,75 @@
-import React from "react";
-import { Card, Title, Paragraph, useTheme } from "react-native-paper";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { Card as PaperCard, Text } from "react-native-paper";
+import { useAppTheme } from "../theme/theme";
+import FlipCard from "react-native-flip-card";
+import { Card } from "../types";
+import { StyleSheet } from "react-native";
 
 interface Props {
-  front: string;
-  back: string;
+  card: Card;
 }
 
-const FlashCard = ({ front, back }: Props) => {
-  const theme = useTheme();
+const Flashcard = ({ card }: Props) => {
+  const theme = useAppTheme();
 
   return (
-    <Card style={styles.card}>
-      <Card.Content style={styles.cardContent}>
-        <Title style={styles.cardText}>{front}</Title>
-        {/* <Paragraph>{content}</Paragraph> */}
-      </Card.Content>
-    </Card>
+    <FlipCard
+      style={[
+        styles.cardContainer,
+        {
+          backgroundColor: theme.colors.secondary,
+        },
+      ]}
+      flipHorizontal={true}
+      flipVertical={false}
+      friction={10}
+    >
+      <PaperCard
+        style={[
+          styles.card,
+          {
+            backgroundColor: theme.colors.secondary,
+          },
+        ]}
+      >
+        <Text
+          variant="headlineLarge"
+          style={[styles.text, { color: theme.colors.backgroundBlue }]}
+        >
+          {card.front}
+        </Text>
+      </PaperCard>
+      <PaperCard
+        style={[
+          styles.card,
+          {
+            backgroundColor: theme.colors.secondary,
+          },
+        ]}
+      >
+        <Text
+          variant="headlineLarge"
+          style={[styles.text, { color: theme.colors.backgroundBlue }]}
+        >
+          {card.back}
+        </Text>
+      </PaperCard>
+    </FlipCard>
   );
 };
 
-const { height, width } = Dimensions.get("window");
-const cardHeight = height * 0.7; // Adjust the height based on your requirements
-const cardWidth = width * 0.9; // Adjust the width based on your requirements
-
 const styles = StyleSheet.create({
-  card: {
-    width: cardWidth,
-    height: cardHeight,
-    alignSelf: "center",
-    marginVertical: 20,
-    borderRadius: 8,
-    elevation: 4,
-    backgroundColor: "white",
+  cardContainer: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 12,
   },
-  cardContent: {
-    flex: 1,
+  card: {
+    width: "100%",
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 2,
   },
-  cardText: {
-    color: "black",
-  },
+  text: { textAlign: "center" },
 });
 
-export default FlashCard;
+export default Flashcard;

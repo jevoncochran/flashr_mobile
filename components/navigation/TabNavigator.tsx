@@ -62,6 +62,7 @@ const TabNavigator = (props: Props) => {
             color={active ? activeColor : color}
             onPress={() => {
               dispatch(setDeckBuildType("create"));
+              navigation.navigate("Build");
             }}
           />
         );
@@ -84,6 +85,9 @@ const TabNavigator = (props: Props) => {
     }
   };
 
+  // TODO: There's a distinction being made between the icon and the rest of the "tab"
+  // Clicking the icon sets deckBuildType as "create"
+  // Clicking under the icon does not
   return (
     <Tab.Navigator
       initialRouteName="Home"

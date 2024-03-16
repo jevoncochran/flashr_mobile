@@ -7,6 +7,7 @@ export const theme = {
     tertiary: "#c2c2c2",
     tertiaryLight: "#606060",
     backgroundBlue: "#090D38",
+    danger: "#c23a4a",
   },
 };
 
