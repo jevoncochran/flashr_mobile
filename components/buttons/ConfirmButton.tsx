@@ -3,17 +3,15 @@ import { TouchableOpacity } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { useTheme } from "react-native-paper";
 
-type Props = {};
+interface Props {
+  onConfirm: () => void;
+}
 
-const handleConfirm = () => {
-  return;
-};
-
-const ConfirmButton = (props: Props) => {
+const ConfirmButton = ({ onConfirm }: Props) => {
   const theme = useTheme();
 
   return (
-    <TouchableOpacity onPress={handleConfirm}>
+    <TouchableOpacity onPress={onConfirm}>
       <Entypo name="check" size={32} color={theme.colors.primary} />
     </TouchableOpacity>
   );

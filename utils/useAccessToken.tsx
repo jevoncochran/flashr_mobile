@@ -1,7 +1,7 @@
 import { useAppSelector } from "../redux/hook";
 import { RootState } from "../redux/store";
 
-export const useAcessToken = () => {
+export const useAccessToken = () => {
   const accessToken = useAppSelector(
     (state: RootState) => state.auth.accessToken
   );

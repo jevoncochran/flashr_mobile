@@ -12,16 +12,17 @@ import ScreenLabel from "../components/ScreenLabel";
 import StyledInput from "../components/StyledInput";
 import { useEffect, useState } from "react";
 import InputCard from "../components/InputCard";
+import { api } from "../utils/api";
+import { useAccessToken } from "../utils/useAccessToken";
+import { useNavigation } from "@react-navigation/native";
 
 const BuildDeckScreen = () => {
+  const accessToken = useAccessToken();
+  const navigation = useNavigation();
+
   const [title, setTitle] = useState("");
-  const [deck, setDeck] = useState([
-    { id: 1, front: "", back: "" },
-    { id: 2, front: "", back: "" },
-    { id: 3, front: "", back: "" },
-    { id: 4, front: "", back: "" },
-  ]);
-  const [cardIdCounter, setCardIdCounter] = useState(5); // Initialize card id counter
+  const [deck, setDeck] = useState([{ id: 1, front: "", back: "" }]);
+  const [cardIdCounter, setCardIdCounter] = useState(2); // Initialize card id counter
 
   const addCard = () => {
     // Add a new card to the deck
@@ -37,6 +38,18 @@ const BuildDeckScreen = () => {
     setDeck(
       deck.map((card) => (card.id === id ? { ...card, ...updatedCard } : card))
     );
+  };
+
+  const handleConfirm = () => {
+    api
+      .post("/decks", { title, cards: deck }, accessToken)
+      .then((res) => {
+        console.log(res.data);
+        navigation.navigate("Home");
+      })
+      .catch((err: any) => {
+        console.error(err);
+      });
   };
 
   useEffect(() => {
@@ -56,7 +69,7 @@ const BuildDeckScreen = () => {
       >
         <View style={styles.actionContainer}>
           <BackButton marginBottom={0} />
-          <ConfirmButton />
+          <ConfirmButton onConfirm={handleConfirm} />
         </View>
 
         <ScreenLabel

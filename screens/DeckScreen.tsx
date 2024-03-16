@@ -13,13 +13,13 @@ import { Profile } from "../types";
 import FilledButton from "../components/buttons/FilledButton";
 import OutlinedButton from "../components/buttons/OutlinedButton";
 import BackButton from "../components/buttons/BackButton";
-import { useAcessToken } from "../utils/useAcessToken";
+import { useAccessToken } from "../utils/useAccessToken";
 
 const DeckScreen = () => {
   // Hooks
   const navigation = useNavigation();
   const theme = useAppTheme();
-  const acccessToken = useAcessToken();
+  const acccessToken = useAccessToken();
 
   // Redux state
   const selectedDeck = useAppSelector(

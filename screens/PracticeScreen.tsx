@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import ScreenTemplate from "../components/ScreenTemplate";
 import BackButton from "../components/buttons/BackButton";
 import { api } from "../utils/api";
-import { useAcessToken } from "../utils/useAcessToken";
+import { useAccessToken } from "../utils/useAccessToken";
 import { useAppSelector } from "../redux/hook";
 import { RootState } from "../redux/store";
 
 const PracticeScreen = () => {
-  const accessToken = useAcessToken();
+  const accessToken = useAccessToken();
 
   const deckId = useAppSelector(
     (state: RootState) => state.deck.selectedDeck?.id

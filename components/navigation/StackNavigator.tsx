@@ -27,10 +27,10 @@ const StackNavigator = (props: Props) => {
       >
         {!isAuthenticated ? (
           <Stack.Screen name="Login" component={LoginScreen} />
-        ) : (
+      ) : (
           <>
             <Stack.Screen name="Tabs" component={TabNavigator} />
-            <Stack.Screen name="Decks" component={DecksScreen} />
+            <Stack.Screen name="Home" component={DecksScreen} />
             <Stack.Screen name="Deck" component={DeckScreen} />
             <Stack.Screen name="Practice" component={PracticeScreen} />
             <Stack.Screen name="Build" component={BuildDeckScreen} />

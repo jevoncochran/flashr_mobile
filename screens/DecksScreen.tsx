@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import ScreenTemplate from "../components/ScreenTemplate";
 import { Text } from "react-native-paper";
 import {
@@ -16,8 +16,8 @@ import { api } from "../utils/api";
 import { useAppDispatch } from "../redux/hook";
 import { Deck } from "../types";
 import { setSelectedDeck } from "../redux/features/deck/deckSlice";
-import { useNavigation } from "@react-navigation/native";
-import { useAcessToken } from "../utils/useAcessToken";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useAccessToken } from "../utils/useAccessToken";
 
 type Props = {};
 
@@ -28,7 +28,7 @@ const DecksScreen = (props: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const accessToken = useAcessToken();
+  const accessToken = useAccessToken();
 
   const [recentlyViewedDecks, setRecentlyViewedDecks] = useState([]);
   const [userDecks, setUserDecks] = useState([]);
@@ -43,17 +43,19 @@ const DecksScreen = (props: Props) => {
     navigation.navigate("Deck", { deckId: deck.id });
   };
 
-  useEffect(() => {
-    api
-      .get("/decks/user-specific", accessToken)
-      .then((res) => {
-        console.log(res.data);
-        setUserDecks(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      api
+        .get("/decks/user-specific", accessToken)
+        .then((res) => {
+          console.log(res.data);
+          setUserDecks(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, [])
+  );
 
   return (
     <ScreenTemplate>
