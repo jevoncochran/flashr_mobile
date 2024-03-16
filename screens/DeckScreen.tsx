@@ -14,12 +14,15 @@ import FilledButton from "../components/buttons/FilledButton";
 import OutlinedButton from "../components/buttons/OutlinedButton";
 import BackButton from "../components/buttons/BackButton";
 import { useAccessToken } from "../utils/useAccessToken";
+import { useDispatch } from "react-redux";
+import { setDeckBuildType } from "../redux/features/deck/deckSlice";
 
 const DeckScreen = () => {
   // Hooks
   const navigation = useNavigation();
   const theme = useAppTheme();
   const acccessToken = useAccessToken();
+  const dispatch = useDispatch();
 
   // Redux state
   const selectedDeck = useAppSelector(
@@ -30,6 +33,11 @@ const DeckScreen = () => {
   const [deckCreatorProfile, setDeckCreatorProfile] = useState<Profile | null>(
     null
   );
+
+  const handleEditClick = () => {
+    dispatch(setDeckBuildType("update"));
+    navigation.navigate("Build");
+  };
 
   // Side effects
   useEffect(() => {
@@ -43,6 +51,10 @@ const DeckScreen = () => {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    console.log("selecteDeck: ", selectedDeck);
+  }, [selectedDeck]);
 
   return (
     <ScreenTemplate>
@@ -110,7 +122,7 @@ const DeckScreen = () => {
               navigation.navigate("Practice");
             }}
           />
-          <OutlinedButton label="Edit" onPress={() => {}} />
+          <OutlinedButton label="Edit" onPress={handleEditClick} />
         </View>
       </>
     </ScreenTemplate>

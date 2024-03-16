@@ -54,7 +54,7 @@ const TabNavigator = (props: Props) => {
             color={active ? activeColor : color}
           />
         );
-      case "Create":
+      case "Build":
         return (
           <MaterialIcons
             name="add-circle-outline"
@@ -92,10 +92,10 @@ const TabNavigator = (props: Props) => {
           backgroundColor: theme.colors.backgroundBlue,
           height: 100,
           justifyContent: "center",
-          display: route.name !== "Create" ? "flex" : "none",
+          display: route.name !== "Build" ? "flex" : "none",
         },
         tabBarLabel: ({ focused }) =>
-          route.name === "Create" ? null : (
+          route.name === "Build" ? null : (
             <Text
               style={{
                 color: focused
@@ -120,7 +120,7 @@ const TabNavigator = (props: Props) => {
     >
       <Tab.Screen name="Home" component={DecksScreen} />
       <Tab.Screen name="Solutions" component={DecksScreen} />
-      <Tab.Screen name="Create" component={BuildDeckScreen} />
+      <Tab.Screen name="Build" component={BuildDeckScreen} />
       <Tab.Screen name="Library" component={DecksScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>

@@ -15,14 +15,32 @@ import InputCard from "../components/InputCard";
 import { api } from "../utils/api";
 import { useAccessToken } from "../utils/useAccessToken";
 import { useNavigation } from "@react-navigation/native";
+import { useAppSelector } from "../redux/hook";
+import { RootState } from "../redux/store";
+import { Card, Deck } from "../types";
 
 const BuildDeckScreen = () => {
   const accessToken = useAccessToken();
   const navigation = useNavigation();
 
-  const [title, setTitle] = useState("");
-  const [deck, setDeck] = useState([{ id: 1, front: "", back: "" }]);
-  const [cardIdCounter, setCardIdCounter] = useState(2); // Initialize card id counter
+  const initializedDeck = [{ id: 1, front: "", back: "" }];
+
+  const deckBuildType = useAppSelector(
+    (state: RootState) => state.deck.deckBuildType
+  );
+  const selectedDeck = useAppSelector(
+    (state: RootState) => state.deck.selectedDeck
+  );
+
+  const [title, setTitle] = useState(
+    deckBuildType === "create" ? "" : selectedDeck?.title
+  );
+  const [deck, setDeck] = useState(
+    deckBuildType === "create" ? initializedDeck : selectedDeck?.cards
+  );
+  const [cardIdCounter, setCardIdCounter] = useState(
+    deckBuildType === "create" ? 2 : selectedDeck?.cards?.length + 1
+  ); // Initialize card id counter
 
   const addCard = () => {
     // Add a new card to the deck
@@ -36,20 +54,40 @@ const BuildDeckScreen = () => {
   ) => {
     // Update the front and back of the specific card in the deck
     setDeck(
-      deck.map((card) => (card.id === id ? { ...card, ...updatedCard } : card))
+      deck?.map((card) => (card.id === id ? { ...card, ...updatedCard } : card))
     );
   };
 
   const handleConfirm = () => {
-    api
-      .post("/decks", { title, cards: deck }, accessToken)
-      .then((res) => {
-        console.log(res.data);
-        navigation.navigate("Home");
-      })
-      .catch((err: any) => {
-        console.error(err);
-      });
+    deckBuildType === "create"
+      ? api
+          .post("/decks", { title, cards: stringifyIds(deck) }, accessToken)
+          .then((res) => {
+            console.log(res.data);
+            navigation.navigate("Home");
+          })
+          .catch((err: any) => {
+            console.error(err);
+          })
+      : api
+          .patch(
+            `/decks/${selectedDeck?.id}`,
+            { title, cards: stringifyIds(deck) },
+            accessToken
+          )
+          .then((res) => {
+            console.log(res.data);
+            navigation.navigate("Home");
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+  };
+
+  const stringifyIds = (deck: Card[]) => {
+    return deck.map((card) => {
+      return { ...card, id: String(card.id) };
+    });
   };
 
   useEffect(() => {
