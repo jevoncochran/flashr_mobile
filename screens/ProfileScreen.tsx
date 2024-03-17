@@ -53,7 +53,9 @@ const ProfileScreen = () => {
             />
           </View>
         </View>
-        <OutlinedButton label="Log out" onPress={() => dispatch(logout())} />
+        <View style={styles.bottomButtonContainer}>
+          <OutlinedButton label="Log out" onPress={() => dispatch(logout())} />
+        </View>
       </>
     </ScreenTemplate>
   );
@@ -89,6 +91,7 @@ const styles = StyleSheet.create({
   topButtonRightContainer: {
     justifyContent: "center",
   },
+  bottomButtonContainer: { paddingBottom: 24 },
 });
 
 export default ProfileScreen;

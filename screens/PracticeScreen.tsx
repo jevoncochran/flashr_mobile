@@ -6,13 +6,14 @@ import { useAccessToken } from "../utils/useAccessToken";
 import { useAppSelector } from "../redux/hook";
 import { RootState } from "../redux/store";
 import { View, StyleSheet } from "react-native";
-import { useAppTheme } from "../theme/theme";
 import Score from "../components/Score";
 import Flashcard from "../components/Flashcard";
+import CardsSwipe from "react-native-cards-swipe";
+import { shuffle } from "../utils/shuffle";
+import { Card } from "../types";
 
 const PracticeScreen = () => {
   const accessToken = useAccessToken();
-  const theme = useAppTheme();
 
   const selectedDeck = useAppSelector(
     (state: RootState) => state.deck.selectedDeck
@@ -20,18 +21,31 @@ const PracticeScreen = () => {
 
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
-  const [cards, setCards] = useState(selectedDeck?.cards);
+  const [cards, setCards] = useState<Card[]>(selectedDeck?.cards || []);
+
+  const handleCorrect = () => {
+    setCorrectCount(correctCount + 1);
+  };
+
+  const handleIncorrect = () => {
+    setIncorrectCount(incorrectCount + 1);
+  };
 
   useEffect(() => {
-    api
-      .post(`/views`, { deckId: selectedDeck?.id }, accessToken)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err: any) => {
-        console.log(err.response.data.message);
-      });
-  }, []);
+    // api
+    //   .post(`/views`, { deckId: selectedDeck?.id }, accessToken)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((err: any) => {
+    //     console.log(err.response.data.message);
+    //   });
+
+    // Shuffle the cards directly when setting the state
+    if (selectedDeck?.cards) {
+      setCards((prev) => shuffle([...prev]));
+    }
+  }, [selectedDeck?.cards]);
 
   return (
     <ScreenTemplate>
@@ -44,7 +58,15 @@ const PracticeScreen = () => {
         </View>
 
         <View style={styles.cardContainer}>
-          <Flashcard card={cards[0]} />
+          <CardsSwipe
+            cards={cards}
+            cardContainerStyle={{ width: "100%" }}
+            renderCard={(card) => <Flashcard card={card} />}
+            onSwipedRight={handleCorrect}
+            onSwipedLeft={handleIncorrect}
+            renderNoMoreCard={() => null}
+            loop={false}
+          />
         </View>
       </>
     </ScreenTemplate>
@@ -60,9 +82,7 @@ const styles = StyleSheet.create({
     marginHorizontal: -16,
   },
   cardContainer: {
-    width: "100%",
     flexGrow: 1,
-    flex: 1,
     paddingHorizontal: 8,
     marginTop: 24,
     marginBottom: 72,

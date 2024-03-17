@@ -27,7 +27,7 @@ const StackNavigator = (props: Props) => {
       >
         {!isAuthenticated ? (
           <Stack.Screen name="Login" component={LoginScreen} />
-      ) : (
+        ) : (
           <>
             <Stack.Screen name="Tabs" component={TabNavigator} />
             <Stack.Screen name="Home" component={DecksScreen} />

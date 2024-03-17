@@ -52,9 +52,6 @@ const DeckScreen = () => {
       });
   }, []);
 
-  useEffect(() => {
-    console.log("selecteDeck: ", selectedDeck);
-  }, [selectedDeck]);
 
   return (
     <ScreenTemplate>
@@ -118,6 +115,7 @@ const DeckScreen = () => {
         <View style={styles.buttonContainer}>
           <FilledButton
             label="Practice"
+            disabled={selectedDeck?.cards.length === 0}
             onPress={() => {
               navigation.navigate("Practice");
             }}

@@ -2,7 +2,7 @@ import { Card as PaperCard, Text } from "react-native-paper";
 import { useAppTheme } from "../theme/theme";
 import FlipCard from "react-native-flip-card";
 import { Card } from "../types";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 interface Props {
   card: Card;
@@ -11,12 +11,15 @@ interface Props {
 const Flashcard = ({ card }: Props) => {
   const theme = useAppTheme();
 
+  const windowWidth = Dimensions.get("window").width;
+
   return (
     <FlipCard
       style={[
         styles.cardContainer,
         {
           backgroundColor: theme.colors.secondary,
+          width: windowWidth - 48, 
         },
       ]}
       flipHorizontal={true}
@@ -61,6 +64,8 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: "100%",
     height: "100%",
+    flexGrow: 1,
+    flex: 1,
     borderRadius: 12,
   },
   card: {

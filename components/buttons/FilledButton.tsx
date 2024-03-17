@@ -9,8 +9,8 @@ interface Props {
 
 const FilledButton = ({ label, onPress, disabled }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <Button mode="contained" disabled={disabled} style={styles.button}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
+      <Button mode="contained" style={styles.button}>
         <Text variant="titleLarge">{label}</Text>
       </Button>
     </TouchableOpacity>

@@ -11,6 +11,15 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
 import StackNavigator from "./components/navigation/StackNavigator";
 import { theme } from "./theme/theme";
+import Animated, { Extrapolation } from "react-native-reanimated";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+try {
+  // console.log(Animated.Extrapolate.CLAMP);
+} catch (error) {
+  console.warn(error); //  [TypeError: Cannot read property 'CLAMP' of undefined]
+}
+Animated.Extrapolate = Extrapolation;
+// console.log(Animated.Extrapolate.CLAMP); // 'clamp'
 
 const Stack = createNativeStackNavigator();
 
@@ -18,9 +27,11 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <PaperProvider theme={theme}>
-          <StackNavigator />
-        </PaperProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <PaperProvider theme={theme}>
+            <StackNavigator />
+          </PaperProvider>
+        </GestureHandlerRootView>
       </PersistGate>
     </Provider>
   );

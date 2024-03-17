@@ -56,6 +56,7 @@ function StyledInput({
         textColor={isCardInput ? theme.colors.backgroundBlue : "white"}
         secureTextEntry={secureText}
         autoCapitalize={autoCapitalize}
+        selectionColor={isCardInput ? theme.colors.backgroundBlue : "white"}
         style={{
           backgroundColor: "transparent",
           color: isCardInput ? theme.colors.backgroundBlue : "white",
