@@ -3,6 +3,7 @@ import storage from "@react-native-async-storage/async-storage";
 import { persistReducer, persistStore } from "redux-persist";
 import authReducer from "./features/auth/authSlice";
 import deckReducer from "./features/deck/deckSlice";
+import resultReducer from "./features/result/resultSlice";
 
 const persistConfig = {
   key: "root",
@@ -13,6 +14,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   deck: deckReducer,
+  result: resultReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

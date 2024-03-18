@@ -9,10 +9,9 @@ import TabNavigator from "./TabNavigator";
 import DeckScreen from "../../screens/DeckScreen";
 import PracticeScreen from "../../screens/PracticeScreen";
 import BuildDeckScreen from "../../screens/BuildDeckScreen";
+import ResultScreen from "../../screens/ResultScreen";
 
-type Props = {};
-
-const StackNavigator = (props: Props) => {
+const StackNavigator = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
 
   const isAuthenticated = auth.accessToken !== null;
@@ -34,6 +33,7 @@ const StackNavigator = (props: Props) => {
             <Stack.Screen name="Deck" component={DeckScreen} />
             <Stack.Screen name="Practice" component={PracticeScreen} />
             <Stack.Screen name="Build" component={BuildDeckScreen} />
+            <Stack.Screen name="Results" component={ResultScreen} />
           </>
         )}
       </Stack.Navigator>

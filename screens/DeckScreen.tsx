@@ -16,6 +16,7 @@ import BackButton from "../components/buttons/BackButton";
 import { useAccessToken } from "../utils/useAccessToken";
 import { useDispatch } from "react-redux";
 import { setDeckBuildType } from "../redux/features/deck/deckSlice";
+import { resetResults } from "../redux/features/result/resultSlice";
 
 const DeckScreen = () => {
   // Hooks
@@ -39,6 +40,11 @@ const DeckScreen = () => {
     navigation.navigate("Build");
   };
 
+  const handlePracticeClick = () => {
+    dispatch(resetResults());
+    navigation.navigate("Practice");
+  };
+
   // Side effects
   useEffect(() => {
     api
@@ -51,7 +57,6 @@ const DeckScreen = () => {
         console.log(err);
       });
   }, []);
-
 
   return (
     <ScreenTemplate>
@@ -116,9 +121,7 @@ const DeckScreen = () => {
           <FilledButton
             label="Practice"
             disabled={selectedDeck?.cards.length === 0}
-            onPress={() => {
-              navigation.navigate("Practice");
-            }}
+            onPress={handlePracticeClick}
           />
           <OutlinedButton label="Edit" onPress={handleEditClick} />
         </View>
