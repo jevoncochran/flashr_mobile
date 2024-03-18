@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { RootState } from "../redux/store";
 import { resetResults } from "../redux/features/result/resultSlice";
 import { setSelectedDeck } from "../redux/features/deck/deckSlice";
+import { Deck } from "../types";
 
 const ResultScreen = () => {
   const theme = useAppTheme();
@@ -29,6 +30,19 @@ const ResultScreen = () => {
     navigation.navigate("Practice");
   };
 
+  const getMessage = (knowCards: number, deck: Deck) => {
+    if (knowCards < deck.cards.length) {
+      return "You're doing great! Keep practicing and you will get better!";
+    } else {
+      return "Wow, you really know your stuff! Keep up the good work!";
+    }
+  };
+
+  const getNumberGrade = (knowCards: number, deck: Deck) => {
+    const percentage = (knowCards / deck.cards.length) * 100;
+    return Math.round(percentage);
+  };
+
   return (
     <ScreenTemplate>
       <>
@@ -38,7 +52,7 @@ const ResultScreen = () => {
             variant="titleLarge"
             style={[styles.caption, { color: theme.colors.primary }]}
           >
-            Wow, you really know your stuff! Keep up the good work!
+            {getMessage(result.know, selectedDeck as Deck)}
           </Text>
           <Octicons
             name="checklist"
@@ -55,15 +69,31 @@ const ResultScreen = () => {
           <View
             style={[
               styles.scoreContainer,
-              { borderColor: theme.colors.secondary },
+              {
+                borderColor:
+                  getNumberGrade(result.know, selectedDeck) >= 60
+                    ? theme.colors.secondary
+                    : theme.colors.danger,
+              },
             ]}
           >
-            <AntDesign
-              name="check"
-              size={36}
-              color={theme.colors.secondary}
-              style={[{ borderColor: theme.colors.secondary }]}
-            />
+            {result.know === selectedDeck?.cards.length ? (
+              <AntDesign
+                name="check"
+                size={36}
+                color={theme.colors.secondary}
+              />
+            ) : (
+              <Text
+                variant="bodyLarge"
+                style={{
+                  color:
+                    getNumberGrade(result.know, selectedDeck) >= 60
+                      ? theme.colors.secondary
+                      : theme.colors.danger,
+                }}
+              >{`${getNumberGrade(result.know, selectedDeck as Deck)}%`}</Text>
+            )}
           </View>
 
           <View style={styles.countContainer}>
