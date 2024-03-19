@@ -10,6 +10,7 @@ import DeckScreen from "../../screens/DeckScreen";
 import PracticeScreen from "../../screens/PracticeScreen";
 import BuildDeckScreen from "../../screens/BuildDeckScreen";
 import ResultScreen from "../../screens/ResultScreen";
+import SignUpScreen from "../../screens/SignUpScreen";
 
 const StackNavigator = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
@@ -25,7 +26,10 @@ const StackNavigator = () => {
         screenOptions={{ headerShown: false }}
       >
         {!isAuthenticated ? (
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={SignUpScreen} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Tabs" component={TabNavigator} />

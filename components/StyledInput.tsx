@@ -13,6 +13,8 @@ interface Props {
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
   isCardInput?: boolean;
   marginBottom?: number;
+  error?: boolean;
+  errorMessage?: string;
 }
 
 function StyledInput({
@@ -25,6 +27,8 @@ function StyledInput({
   autoCapitalize = "none",
   isCardInput,
   marginBottom = 24,
+  error,
+  errorMessage,
 }: Props) {
   const theme = useAppTheme();
 
@@ -37,6 +41,31 @@ function StyledInput({
   const handleBlur = () => {
     setIsFocused(false);
   };
+
+  const getInputStyles = (
+    error: boolean | undefined,
+    isCardInput: boolean | undefined
+  ) => {
+    if (error) {
+      return {
+        helperTextColor: theme.colors.danger,
+        borderColor: theme.colors.danger,
+      };
+    }
+
+    if (isCardInput) {
+      return {
+        helperTextColor: theme.colors.backgroundBlue,
+        borderColor: theme.colors.backgroundBlue,
+      };
+    }
+
+    return {
+      helperTextColor: theme.colors.tertiary,
+      borderColor: theme.colors.primary,
+    };
+  };
+
   return (
     <View style={{ marginBottom }}>
       <TextInput
@@ -57,19 +86,20 @@ function StyledInput({
         secureTextEntry={secureText}
         autoCapitalize={autoCapitalize}
         selectionColor={isCardInput ? theme.colors.backgroundBlue : "white"}
+        error={error}
         style={{
           backgroundColor: "transparent",
           color: isCardInput ? theme.colors.backgroundBlue : "white",
-          borderColor: isCardInput ? theme.colors.backgroundBlue : "white",
+          borderColor: getInputStyles(error, isCardInput).borderColor,
           borderBottomWidth: isFocused ? 3 : 1,
         }}
       />
       <HelperText
         type="info"
         padding="none"
-        style={{ color: isCardInput ? theme.colors.backgroundBlue : "#c2c2c2" }}
+        style={{ color: getInputStyles(error, isCardInput).helperTextColor }}
       >
-        {label}
+        {errorMessage ? errorMessage : label}
       </HelperText>
     </View>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
 import ScreenTemplate from "../components/ScreenTemplate";
@@ -9,18 +9,34 @@ import { setAuth } from "../redux/features/auth/authSlice";
 import FilledButton from "../components/buttons/FilledButton";
 import { useNavigation } from "@react-navigation/native";
 
-const LoginScreen = () => {
+const SignUpScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  });
+  const [passwordsMatchError, setPasswordsMatchError] = useState(false);
 
-  const loginDisabled = credentials.email === "" || credentials.password === "";
+  //   const loginDisabled =
+  //     credentials.email === "" ||
+  //     credentials.password === "" ||
+  //     credentials.password !== credentials.passwordConfirm ||
+  //     passwordsMatchError;
 
-  const handleLogin = () => {
-    // Add your login logic here
+  const handleSignUp = () => {
+    // Check if passwords match
+    if (credentials.password !== credentials.passwordConfirm) {
+      setPasswordsMatchError(true);
+      console.log("password match error set");
+      return;
+    }
+
+    const { email, password } = credentials;
     api
-      .post("/auth/login", credentials)
+      .post("/auth/register", { email, password })
       .then((res) => {
         console.log(res.data);
         const { user, accessToken } = res.data;
@@ -30,6 +46,10 @@ const LoginScreen = () => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    console.log("credentials: ", credentials);
+  }, [credentials]);
 
   return (
     <ScreenTemplate>
@@ -55,25 +75,35 @@ const LoginScreen = () => {
             }
           />
 
-          <Text style={styles.textRegular}>
-            Forgot <Text style={styles.textEmphasized}>password?</Text>
-          </Text>
+          <StyledInput
+            label="Confirm password"
+            placeholder="Confirm your password"
+            secureText
+            value={credentials.passwordConfirm}
+            onChangeText={(text) =>
+              setCredentials({ ...credentials, passwordConfirm: text })
+            }
+            error={passwordsMatchError}
+            errorMessage={
+              passwordsMatchError ? "Passwords do not match" : undefined
+            }
+          />
 
           <Text style={styles.textRegular}>
-            Need to create an account?{" "}
+            Already have an account?{" "}
             <Text
               style={styles.textEmphasized}
-              onPress={() => navigation.navigate("Register")}
+              onPress={() => navigation.navigate("Login")}
             >
-              Sign up
+              Login
             </Text>
           </Text>
         </View>
 
         <FilledButton
-          label="Login"
-          disabled={loginDisabled}
-          onPress={handleLogin}
+          label="Sign up"
+          //   disabled={loginDisabled}
+          onPress={handleSignUp}
         />
       </View>
     </ScreenTemplate>
@@ -102,6 +132,11 @@ const styles = StyleSheet.create({
   textEmphasized: {
     color: "#00f29f",
   },
+  errorMessage: {
+    color: "red",
+    textAlign: "center",
+    marginTop: 8,
+  },
 });
 
-export default LoginScreen;
+export default SignUpScreen;
