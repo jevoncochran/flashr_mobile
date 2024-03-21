@@ -8,6 +8,7 @@ import { useAppDispatch } from "../redux/hook";
 import { setAuth } from "../redux/features/auth/authSlice";
 import FilledButton from "../components/buttons/FilledButton";
 import { useNavigation } from "@react-navigation/native";
+import { setProfile } from "../redux/features/profile/profileSlice";
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
@@ -23,8 +24,15 @@ const LoginScreen = () => {
       .post("/auth/login", credentials)
       .then((res) => {
         console.log(res.data);
-        const { user, accessToken } = res.data;
+        const { user, accessToken, profile } = res.data;
         dispatch(setAuth({ user, accessToken }));
+        dispatch(
+          setProfile({
+            id: profile.id,
+            username: profile.username,
+            image: profile.image,
+          })
+        );
       })
       .catch((err: any) => {
         console.log(err);

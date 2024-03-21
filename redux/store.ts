@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import authReducer from "./features/auth/authSlice";
 import deckReducer from "./features/deck/deckSlice";
 import resultReducer from "./features/result/resultSlice";
+import profileReducer from "./features/profile/profileSlice";
 
 const persistConfig = {
   key: "root",
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   deck: deckReducer,
   result: resultReducer,
+  profile: profileReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

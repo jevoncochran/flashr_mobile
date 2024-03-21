@@ -6,15 +6,16 @@ import { useAppTheme } from "../theme/theme";
 import ProfilePic from "../components/ProfilePic";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import ProfileButton from "../components/profile/ProfileButton";
-import { useAppDispatch } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { logout } from "../redux/features/auth/authSlice";
 import OutlinedButton from "../components/buttons/OutlinedButton";
+import { RootState } from "../redux/store";
 
 const ProfileScreen = () => {
   const theme = useAppTheme();
-
   const dispatch = useAppDispatch();
 
+  const profile = useAppSelector((state: RootState) => state.profile);
   return (
     <ScreenTemplate>
       <>
@@ -28,7 +29,7 @@ const ProfileScreen = () => {
               variant="headlineSmall"
               style={{ color: theme.colors.primary, marginBottom: 24 }}
             >
-              jevon_cochran9
+              {profile.username}
             </Text>
 
             <ProfileButton
