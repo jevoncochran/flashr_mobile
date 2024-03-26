@@ -21,9 +21,12 @@ export const profileSlice = createSlice({
         (state.username = action.payload.username),
         (state.image = action.payload.image);
     },
+    setProfilePic: (state, action) => {
+      state.image = action.payload;
+    },
   },
 });
 
-export const { setProfile } = profileSlice.actions;
+export const { setProfile, setProfilePic } = profileSlice.actions;
 
 export default profileSlice.reducer;
