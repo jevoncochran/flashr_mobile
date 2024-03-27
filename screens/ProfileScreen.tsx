@@ -5,7 +5,7 @@ import { Text } from "react-native-paper";
 import { useAppTheme } from "../theme/theme";
 import ProfilePic from "../components/ProfilePic";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import ProfileButton from "../components/profile/ProfileButton";
+import ScreenButton from "../components/profile/ScreenButton";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { logout } from "../redux/features/auth/authSlice";
 import OutlinedButton from "../components/buttons/OutlinedButton";
@@ -13,8 +13,10 @@ import { RootState } from "../redux/store";
 import * as ImagePicker from "expo-image-picker";
 import { api } from "../utils/api";
 import { setProfilePic } from "../redux/features/profile/profileSlice";
+import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen = () => {
+  const navigation = useNavigation();
   const theme = useAppTheme();
   const dispatch = useAppDispatch();
 
@@ -89,7 +91,7 @@ const ProfileScreen = () => {
               {profile.username}
             </Text>
 
-            <ProfileButton
+            <ScreenButton
               label="Your courses"
               icon={
                 <MaterialCommunityIcons
@@ -98,8 +100,9 @@ const ProfileScreen = () => {
                   color={theme.colors.secondary}
                 />
               }
+              onPress={() => {}}
             />
-            <ProfileButton
+            <ScreenButton
               label="Your settings"
               icon={
                 <MaterialIcons
@@ -108,6 +111,7 @@ const ProfileScreen = () => {
                   color={theme.colors.secondary}
                 />
               }
+              onPress={() => navigation.navigate("Settings")}
             />
           </View>
         </View>

@@ -1,23 +1,33 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, GestureResponderEvent } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useAppTheme } from "../../theme/theme";
 import { Entypo } from "@expo/vector-icons";
 
 interface Props {
   label: string;
-  icon: JSX.Element;
+  subtext?: string;
+  icon?: JSX.Element;
+  onPress: (e: GestureResponderEvent) => void;
 }
 
-const ProfileButton = ({ label, icon }: Props) => {
+const ScreenButton = ({ label, subtext, icon, onPress }: Props) => {
   const theme = useAppTheme();
   return (
-    <Button style={[styles.button, { borderColor: theme.colors.tertiary }]}>
+    <Button
+      style={[styles.button, { borderColor: theme.colors.tertiary }]}
+      onPress={onPress}
+    >
       <View style={styles.buttonContent}>
         <View style={styles.buttonLeft}>
-          {icon}
-          <Text variant="titleLarge" style={{ color: theme.colors.primary }}>
-            {label}
-          </Text>
+          {icon ? icon : null}
+          <View style={styles.textContainer}>
+            <Text variant="titleLarge" style={{ color: theme.colors.primary }}>
+              {label}
+            </Text>
+            {subtext && (
+              <Text style={{ color: theme.colors.tertiary }}>{subtext}</Text>
+            )}
+          </View>
         </View>
 
         <View style={styles.buttonRight}>
@@ -31,7 +41,6 @@ const ProfileButton = ({ label, icon }: Props) => {
 const styles = StyleSheet.create({
   button: {
     width: "100%",
-    height: 60,
     borderWidth: 1,
     borderRadius: 6,
     justifyContent: "center",
@@ -53,6 +62,9 @@ const styles = StyleSheet.create({
   buttonRight: {
     justifyContent: "center",
   },
+  textContainer: {
+    gap: 8,
+  },
 });
 
-export default ProfileButton;
+export default ScreenButton;

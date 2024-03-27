@@ -5,6 +5,7 @@ import authReducer from "./features/auth/authSlice";
 import deckReducer from "./features/deck/deckSlice";
 import resultReducer from "./features/result/resultSlice";
 import profileReducer from "./features/profile/profileSlice";
+import updateAccountReducer from "./features/updateAccount/updateAccountSlice";
 
 const persistConfig = {
   key: "root",
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   deck: deckReducer,
   result: resultReducer,
   profile: profileReducer,
+  updateAccount: updateAccountReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

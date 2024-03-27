@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
 import ScreenTemplate from "../components/ScreenTemplate";
@@ -54,10 +54,6 @@ const SignUpScreen = () => {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    console.log("credentials: ", credentials);
-  }, [credentials]);
 
   return (
     <ScreenTemplate>

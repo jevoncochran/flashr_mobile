@@ -11,6 +11,8 @@ import PracticeScreen from "../../screens/PracticeScreen";
 import BuildDeckScreen from "../../screens/BuildDeckScreen";
 import ResultScreen from "../../screens/ResultScreen";
 import SignUpScreen from "../../screens/SignUpScreen";
+import SettingsScreen from "../../screens/SettingsScreen";
+import UpdateAccountScreen from "../../screens/UpdateAccountScreen";
 
 const StackNavigator = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
@@ -38,6 +40,11 @@ const StackNavigator = () => {
             <Stack.Screen name="Practice" component={PracticeScreen} />
             <Stack.Screen name="Build" component={BuildDeckScreen} />
             <Stack.Screen name="Results" component={ResultScreen} />
+            <Stack.Screen name="Settings" component={SettingsScreen} />
+            <Stack.Screen
+              name="UpdateAccount"
+              component={UpdateAccountScreen}
+            />
           </>
         )}
       </Stack.Navigator>
